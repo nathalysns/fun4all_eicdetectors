@@ -279,29 +279,15 @@ bool RawTowerBuilderByHitIndexBECAL::ReadGeometryFromTable()
     double x_temp = it->second->get_center_x();
     double y_temp = it->second->get_center_y();
     double z_temp = it->second->get_center_z();
-        
-    TVector3 v_temp_r1(x_temp, y_temp, z_temp);
-        
-    /* Rotation */
-    TRotation rot;
-    rot.RotateY(it->second->get_roty());
-    rot.RotateZ(it->second->get_rotz());
-   
-    v_temp_r1.Transform(rot);
-
-    double x_temp_rt = v_temp_r1.X();
-    double y_temp_rt = v_temp_r1.Y();
-    double z_temp_rt = v_temp_r1.Z();
    
     /* Update tower geometry object */
-    it->second->set_center_x(x_temp_rt);
-    it->second->set_center_y(y_temp_rt);
-    it->second->set_center_z(z_temp_rt);
+    it->second->set_center_x(x_temp);
+    it->second->set_center_y(y_temp);
+    it->second->set_center_z(z_temp);
 
     if (Verbosity() > 2)
     {
-      cout << "* Local tower x y z : " << x_temp << " " << y_temp << " " << z_temp << endl;
-      cout << "* Globl tower x y z : " << x_temp_rt << " " << y_temp_rt << " " << z_temp_rt << endl;      
+      cout << "* Global tower x y z : " << x_temp << " " << y_temp << " " << z_temp << endl;      
     }
   }
   if (Verbosity())

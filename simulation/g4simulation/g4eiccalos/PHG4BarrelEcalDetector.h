@@ -8,6 +8,8 @@
 #include <Geant4/G4Types.hh>  // for G4double
 #include <Geant4/G4Transform3D.hh>
 #include <Geant4/G4Tubs.hh>
+#include <Geant4/G4SystemOfUnits.hh>
+
 
 #include <map>
 #include <set>
@@ -48,12 +50,18 @@ class PHG4BarrelEcalDetector : public PHG4Detector
 
  private:
 
+  //! BECAL parameters
+
+  const double Radius = 85.*cm; //Inner radius of BECAL
+  const int nTowers_layer = 128.; //Number of towers per phi tower
+  const double tower_length = 45.5*cm; // Length of the Tower
+  const double elec_length  = 2*cm; //electronics width
+  const double support_length = 8*cm;  //support width
+  const double becal_length = 412*cm;  //support width
+
   G4LogicalVolume *ConstructTower();
   int PlaceTower(G4LogicalVolume *envelope, G4LogicalVolume *tower);
   int ParseParametersFromTable();
-
-  virtual std::pair<G4LogicalVolume*, G4Transform3D>
-  Construct_AzimuthalSeg();
 
   struct towerposition
   {
