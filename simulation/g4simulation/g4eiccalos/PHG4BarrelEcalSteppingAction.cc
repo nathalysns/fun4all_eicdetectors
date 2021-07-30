@@ -61,6 +61,7 @@ PHG4BarrelEcalSteppingAction::~PHG4BarrelEcalSteppingAction()
 //____________________________________________________________________________..
 bool PHG4BarrelEcalSteppingAction::UserSteppingAction(const G4Step* aStep, bool)
 {
+  int a = 0;
   G4TouchableHandle touch = aStep->GetPreStepPoint()->GetTouchableHandle();
   G4VPhysicalVolume* volume = touch->GetVolume();
 
@@ -134,6 +135,10 @@ bool PHG4BarrelEcalSteppingAction::UserSteppingAction(const G4Step* aStep, bool)
 
       /* Set intial energy deposit */
       m_Hit->set_edep(0);
+      a++; 
+
+      std::cout << postPoint->GetPosition().x()  << "   " << postPoint->GetPosition().y() << "   " << postPoint->GetPosition().z() << "  " <<  (m_Hit->get_edep() + edep) << std::endl;
+      
 
       /* Now add the hit to the hit collection */
       // here we do things which are different between scintillator and absorber hits
@@ -145,6 +150,7 @@ bool PHG4BarrelEcalSteppingAction::UserSteppingAction(const G4Step* aStep, bool)
         /* Set hit location (tower index) */
         m_Hit->set_index_j(idx_j);
         m_Hit->set_index_k(idx_k);
+
     }
     else
     {
@@ -176,6 +182,7 @@ bool PHG4BarrelEcalSteppingAction::UserSteppingAction(const G4Step* aStep, bool)
 
   /* sum up the energy to get total deposited */
   m_Hit->set_edep(m_Hit->get_edep() + edep);
+  
   if (whichactive > 0)
   {
      m_Hit->set_eion(m_Hit->get_eion() + eion);
@@ -197,6 +204,7 @@ bool PHG4BarrelEcalSteppingAction::UserSteppingAction(const G4Step* aStep, bool)
     {
       if (PHG4TrackUserInfoV1* pp = dynamic_cast<PHG4TrackUserInfoV1*>(p))
       {
+      
         pp->SetKeep(1);  // we want to keep the track
       }
     }
