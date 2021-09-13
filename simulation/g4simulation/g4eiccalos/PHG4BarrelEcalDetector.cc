@@ -32,7 +32,7 @@
 #include <iostream>
 #include <sstream>
 #include <utility>  // for pair, make_pair
-
+//
 using namespace std;
 
 class G4VSolid;
@@ -115,6 +115,8 @@ void PHG4BarrelEcalDetector::ConstructMe(G4LogicalVolume* logicWorld)
   G4Tubs *cylinder_solid1 = new G4Tubs("BCAL_SOLID1",
                                        Radius, max_radius,
                                        becal_length/2, 0, 2*M_PI);
+
+  //std::cout << Radius << "  " << max_radius << "============================" << endl;
 
 
   G4Tubs *cylinder_solid2 = new G4Tubs("BCAL_SOLID2",
@@ -502,11 +504,11 @@ G4Trap* PHG4BarrelEcalDetector::GetGlassTrap(std::map<std::string, towerposition
 {
 
   G4double th =  m_Params->get_double_param("thickness_wall")*cm;
-  G4double size_x1 = iterator->second.sizex1/2 - th ;
-  G4double size_x2 = iterator->second.sizex2/2 - th; 
-  G4double size_y1 = iterator->second.sizey1/2 - th;
-  G4double size_y2 = iterator->second.sizey2/2 - th; 
-  G4double size_z  = iterator->second.sizez/2 - th; 
+  G4double size_x1 = iterator->second.sizex1/2 - th - overlap;
+  G4double size_x2 = iterator->second.sizex2/2 - th - overlap; 
+  G4double size_y1 = iterator->second.sizey1/2 - th - overlap;
+  G4double size_y2 = iterator->second.sizey2/2 - th - overlap; 
+  G4double size_z  = iterator->second.sizez/2 - th - overlap; 
 
   G4Trap* block_glass = new G4Trap( "solid_glass",
       size_z,                                                                           // G4double pDz,
